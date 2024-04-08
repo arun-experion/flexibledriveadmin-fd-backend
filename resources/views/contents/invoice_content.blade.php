@@ -1,3 +1,8 @@
+<style>
+        .page-break {
+            page-break-after: always;
+        }
+    </style>
 <table style="width: 100%;font-family: sans-serif;border:1px solid #000;font-size: 12px;" cellpadding="10" cellspacing="0" align="center">
     <tr>
         <td align="left" style="border-bottom: 2px solid #000">
@@ -45,7 +50,7 @@
             </p>
             @endif
         </td>
-        <td align="right">
+        <td align="right" width="50%">
             <table width="100%">
                 <tr>
                     <td> <b>Quote No.</b> </td>
@@ -79,52 +84,87 @@
             </table>
         </td>
     </tr>
-    <tr bgcolor="#f8f8f8">
-        <td colspan="2">
-            <table border="1" bordercolor="#ccc" cellspacing="0" cellpadding="10" width="100%">
-                <tr>
-                    <th>Part No.</th>
-                    <th>Description</th>
-                    <th>Len.</th>
-                    <th>Qty</th>
-                    <th>Unit Price</th>
-                    <th>Ext. Price</th>
-                </tr>
-
-                @foreach($order->items as $item)
-
-                <tr align="center">
-                    {{-- <td>{{$item->product->product_nr}}</td> --}}
-                    <td>{{$item->product->company_sku}}</td>
-                    <td>{{$item->product->name}}</td>
-                    <td> </td>
-                    <td>{{$item->qty}}</td>
-                    <td>${{ number_format((float)$item->price, 2, '.', '')}}</td>
-                    <td>${{ number_format((float)$item->total, 2, '.', '')}}</td>
-                </tr>
-
-                @endforeach
-                <tr align="center">
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-                <tr align="center">
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-            </table>
-        </td>
+    <!-- display 15 items in 1st page -->
+    @foreach($order->items->chunk(15) as $index => $chunk)
+    <tr bgcolor="#f8f8f8" style="border-bottom: 1px solid #000;"  >
+       <td><div ></div></td> 
+       <td></td> 
     </tr>
-    <tr bgcolor="#fff">
-        <td width="70%"></td>
+    <tr bgcolor="#f8f8f8" style="border-top: 1px solid #000;">
+                <td colspan="2" style="border-bottom: 1px solid #000;">
+                <table style="border-bottom: 1px solid #000;" border="1" bordercolor="#ccc" cellspacing="0" cellpadding="10" width="100%">    
+                <tr>
+                            <th>Part No.</th>
+                            <th>Description</th>
+                            <th>Len.</th>
+                            <th>Qty</th>
+                            <th>Unit Price</th>
+                            <th>Ext. Price</th>
+                        </tr>
+                        @foreach($chunk as $item)
+                        <tr align="center" border="1">
+                            <td>{{$item->product->company_sku}}</td>
+                            <td>{{$item->product->name}}</td>
+                            <td> </td>
+                            <td>{{$item->qty}}</td>
+                            <td>${{ number_format((float)$item->price, 2, '.', '')}}</td>
+                            <td>${{ number_format((float)$item->total, 2, '.', '')}}</td>
+                        </tr>
+                        @endforeach
+                    @if (!$loop->last) 
+                    </table>
+                    <div class="page-break"></div>
+                         <!-- break after 1st chunk -->
+                    @break  
+                    @endif
+                    @if($loop->last) 
+                    </table>
+                    @endif
+                </td>
+            </tr>
+    @endforeach
+ <!-- display remaining items with size 24 -->
+    @if(count($order->items) > 15)
+    @foreach($order->items->slice(15)->chunk(24) as $index => $chunk)
+    <tr bgcolor="#f8f8f8" style="border-bottom: 1px solid #000;"  >
+       <td><div ></div></td> 
+       <td></td> 
+    </tr>
+    <tr bgcolor="#f8f8f8" style="border-top: 1px solid #000;">
+                <td colspan="2" style="border-bottom: 1px solid #000;">
+                <table style="border-bottom: 1px solid #000;" border="1" bordercolor="#ccc" cellspacing="0" cellpadding="10" width="100%">    
+                <tr>
+                            <th>Part No.</th>
+                            <th>Description</th>
+                            <th>Len.</th>
+                            <th>Qty</th>
+                            <th>Unit Price</th>
+                            <th>Ext. Price</th>
+                        </tr>
+                        @foreach($chunk as $item)
+                        <tr align="center" border="1">
+                            <td>{{$item->product->company_sku}}</td>
+                            <td>{{$item->product->name}}</td>
+                            <td> </td>
+                            <td>{{$item->qty}}</td>
+                            <td>${{ number_format((float)$item->price, 2, '.', '')}}</td>
+                            <td>${{ number_format((float)$item->total, 2, '.', '')}}</td>
+                        </tr>
+                        @endforeach
+                    @if (!$loop->last) 
+                    </table>
+                    <div class="page-break"></div>
+                    @endif
+                    @if($loop->last) 
+                    </table>
+                    @endif
+                </td>
+            </tr>
+    @endforeach
+    @endif
+     <tr bgcolor="#fff">
+
+        <td width="100%"></td>
         <td align="right" style="border-top: 2px solid #000;border-bottom: 2px solid #000">
             <table width="100%">
                 <tr>
@@ -148,7 +188,7 @@
                 </tr>
             </table>
         </td>
-    </tr>
+    </tr>  
     <tr bgcolor="#fff">
         <td width="70%"></td>
         <td width="30%" align="right" style="border-bottom: 2px solid #000">
@@ -208,5 +248,5 @@
             Any alterations to items or quantities may incur a price change in accepting this quotation the customer accepts
             Flexible Drive standard terms and conditions of sale.
         </td>
-    </tr>
+    </tr> 
 </table>
