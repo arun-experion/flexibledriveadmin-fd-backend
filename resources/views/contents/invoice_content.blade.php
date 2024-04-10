@@ -157,6 +157,9 @@
                     @endif
                     @if($loop->last) 
                     </table>
+                       @if (count($chunk) > 20)
+                        <div class="page-break"></div>
+                        @endif
                     @endif
                 </td>
             </tr>
