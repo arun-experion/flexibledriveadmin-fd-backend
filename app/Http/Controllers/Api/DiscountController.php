@@ -10,7 +10,8 @@ class DiscountController extends BaseController
 {
     public function getDiscount($cartValue) //get next offer discount based on cart total
     {
-        try{
+        try
+        {
         $discounts = discounts::select('margin_amount','discount_percentage')
         ->where('margin_amount', '>', $cartValue)
         ->orderBy('margin_amount')
@@ -22,6 +23,21 @@ class DiscountController extends BaseController
         else{
             return $this->sendResponse($discounts, 'discount');
         }
+    }
+    catch (\Exception $e) {
+
+        return $this->sendError($e->getMessage(), [], 401);
+    }
+    }
+
+    public function getAllDiscount() //get all available offers
+    {
+        try
+        {
+         $discounts = discounts::select('margin_amount','discount_percentage')
+         ->orderBy('margin_amount')
+        ->get();
+        return $this->sendResponse($discounts, 'All discount');
     }
     catch (\Exception $e) {
 
