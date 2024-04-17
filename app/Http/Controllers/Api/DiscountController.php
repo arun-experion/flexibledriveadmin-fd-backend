@@ -14,6 +14,15 @@ class DiscountController extends BaseController
         ->where('margin_amount', '>', $cartValue)
         ->orderBy('margin_amount')
         ->first();
-        return $this->sendResponse($discounts, 'discount');
+        if(is_null($discounts)) {
+            $dis = ['margin_amount' => 0,
+                    'discount_percentage'=>0,];
+            
+            return $this->sendResponse($dis,'discount'); 
+        }
+        else{
+            return $this->sendResponse($discounts, 'discount');
+        }
+        
     }
 }
