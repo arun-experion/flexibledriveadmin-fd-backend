@@ -49,6 +49,9 @@ Route::group(['namespace' => 'Api'], function () {
 
     Route::post('contact', 'ContactController@index');
 
+    Route::get('discount/{cartValue}', 'DiscountController@getDiscount');
+    Route::get('offers', 'DiscountController@getAllDiscount');
+
     Route::group(['middleware' => 'jwt.auth:api'], function () {
 
         Route::get('logout', 'LoginController@logout');
