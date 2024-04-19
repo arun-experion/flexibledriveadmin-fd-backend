@@ -485,13 +485,16 @@ class OrderController extends BaseController
                 $cart_data['gst'] = number_format((float)$gst, 2, '.', '');
                 $cart_data['subtotal'] = number_format((float)$sub_total, 2, '.', '');
                 $cart_data['delivery'] = number_format((float)$this->DELIVERY_CHARGES, 2, '.', '');
-                $cart_data['total'] = number_format((float)$sub_total + $gst + $this->DELIVERY_CHARGES, 2, '.', '');
+                // $cart_data['total'] = number_format((float)$sub_total + $gst + $this->DELIVERY_CHARGES, 2, '.', '');
+                $cart_total = $request->input('cartTotal');
+                $cart_data['total'] = $cart_total;
                 $cart_data['created_at'] = $order->created_at;
 
                 $order->subtotal = $sub_total;
                 $order->gst = $gst;
                 $order->delivery = $this->DELIVERY_CHARGES;
-                $order->total = $sub_total + $gst + $this->DELIVERY_CHARGES;
+                // $order->total = $sub_total + $gst + $this->DELIVERY_CHARGES;
+                $order->total=$cart_total;
                 $order->reference_number = ($request->reference_number) ? $request->reference_number : NULL;
                 $order->order_number = $order_number;
                 $pdf_data = $this->pdfGenerate($order, $user);
