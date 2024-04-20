@@ -479,15 +479,16 @@ class OrderController extends BaseController
                     OrderProduct::create($order_products);
                     $product_quntities_to_reduce[$item->product_id] = $item->qty;
                 }
-
+                $cart_total = $request->input('cartTotal');
+                $cart_discount=$request->input('cartDiscount');
                 $gst = $sub_total * $this->GST / 100;
                 $cart_data['order_number'] = $order_number;
                 $cart_data['gst'] = number_format((float)$gst, 2, '.', '');
                 $cart_data['subtotal'] = number_format((float)$sub_total, 2, '.', '');
                 $cart_data['delivery'] = number_format((float)$this->DELIVERY_CHARGES, 2, '.', '');
                 // $cart_data['total'] = number_format((float)$sub_total + $gst + $this->DELIVERY_CHARGES, 2, '.', '');
-                $cart_total = $request->input('cartTotal');
-                $cart_data['total'] = $cart_total;
+                $cart_data['total'] = number_format((float)$cart_total+ $this->DELIVERY_CHARGES, 2, '.', '');
+                $cart_data['discount'] = number_format((float)$cart_discount, 2, '.', '');
                 $cart_data['created_at'] = $order->created_at;
 
                 $order->subtotal = $sub_total;
@@ -495,6 +496,7 @@ class OrderController extends BaseController
                 $order->delivery = $this->DELIVERY_CHARGES;
                 // $order->total = $sub_total + $gst + $this->DELIVERY_CHARGES;
                 $order->total=$cart_total;
+                $order->discount=$cart_discount;
                 $order->reference_number = ($request->reference_number) ? $request->reference_number : NULL;
                 $order->order_number = $order_number;
                 $pdf_data = $this->pdfGenerate($order, $user);
