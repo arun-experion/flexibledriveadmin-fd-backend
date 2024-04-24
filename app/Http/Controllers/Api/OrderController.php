@@ -479,8 +479,9 @@ class OrderController extends BaseController
                     OrderProduct::create($order_products);
                     $product_quntities_to_reduce[$item->product_id] = $item->qty;
                 }
-                $cart_total = $request->input('cartTotal');
-                $cart_discount=$request->input('cartDiscount');
+                \Log::info('Request payload:', $request->all());
+                $cart_total = $request->cartTotal;
+                $cart_discount=$request->cartDiscount;
                 $gst = $sub_total * $this->GST / 100;
                 $cart_data['order_number'] = $order_number;
                 $cart_data['gst'] = number_format((float)$gst, 2, '.', '');
