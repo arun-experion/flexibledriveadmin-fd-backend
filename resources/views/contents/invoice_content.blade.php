@@ -186,6 +186,14 @@
                     <td align="right">${{ number_format((float)$order->gst, 2, '.', '') }}</td>
                 </tr>
                 <tr>
+                    <td>
+                        <b>Discount</b>
+                    </td>
+                    <td align="right">
+                        ${{ number_format((float)$order->discount, 2, '.', '')}}
+                    </td>
+                </tr>
+                <tr>
                     <td><b>Freight</b></td>
                     <td align="right">{{ number_format((float)config('constant.invoice.freight'), 2, '.', '') }}</td>
                 </tr>

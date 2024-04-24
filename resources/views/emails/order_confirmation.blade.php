@@ -113,6 +113,14 @@
                                     </tr>
                                     <tr>
                                         <td align="left" style="width: 50%; padding: 8px 0;">
+                                            Discount:
+                                        </td>
+                                        <td align="left" style="width: 50%; padding: 8px 0;">
+                                            ${{ number_format((float)$order->discount, 2, '.', '')}}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td align="left" style="width: 50%; padding: 8px 0;">
                                             Freight:
                                         </td>
                                         <!--<td align="left" style="width: 50%; padding: 8px 0;">
