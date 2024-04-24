@@ -26,6 +26,7 @@
                                     <th>Name</th>
                                     <th>Email</th>
 									<th>Company Name</th>
+                                    <td>Account Code</td>
                                     <th>Mobile</th>
                                     <th>State</th>
                                     <th>Zip</th>
@@ -39,6 +40,7 @@
                                     <td>{{$user->name}}</td>
                                     <td>{{$user->email}}</td>
 									<td>{{$user->company_name}}</td>
+                                    <td>{{$user->account_code}}</td>
                                     <td>{{$user->mobile}}</td>
                                     <td>{{$user->state}}</td>
                                     <td>{{$user->zip}}</td>
@@ -193,6 +195,10 @@ input:checked + .slider .off
 				{
                     data: "company_name",
                     name: "company_name"
+                },
+                {
+                    data: "account_code",
+                    name: "account_code"
                 },
                 {
                     data: "mobile",

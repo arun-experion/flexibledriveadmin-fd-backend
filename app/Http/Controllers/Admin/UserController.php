@@ -51,6 +51,9 @@ class UserController extends Controller
 			->editColumn('company_name', function ($data) {
                 return $data->company_name;
             })
+            ->editColumn('account_code', function ($data) {
+                return $data->account_code;
+            })
             ->editColumn('mobile', function ($data) {
                 return $data->mobile;
             })
@@ -82,7 +85,7 @@ class UserController extends Controller
                     return "";
                 }
             })
-            ->rawColumns(['name', 'email', 'company_name','mobile','state', 'zip', 'status', 'action'])
+            ->rawColumns(['name', 'email', 'company_name','account_code','mobile','state', 'zip', 'status', 'action'])
             ->make(true);
     }
 
