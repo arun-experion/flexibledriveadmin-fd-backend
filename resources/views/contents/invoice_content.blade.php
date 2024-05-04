@@ -1,12 +1,15 @@
-<style>
-        .page-break {
+    <style>
+     .page-break {
             page-break-after: always;
         }
-    </style>
+    </style>'
+    @php
+    $pageNumber = 1;
+@endphp
 <table style="width: 100%;font-family: sans-serif;border:1px solid #000;font-size: 12px;" cellpadding="10" cellspacing="0" align="center">
     <tr>
         <td align="left" style="border-bottom: 2px solid #000">
-            <img src="https://www.flexibledrive.com.au/static/themes/theme-1/images/logos/flexible-drive-logo.svg" style="max-width: 300px; width: 300px;">
+            <img src="https://www.flexibledrive.com.au/static/themes/theme-1/images/logos/flexible-drive-logo.svg" style="max-width: 300px; width: 300px; margin-top:5px">
             <br />
             <b>QUOTE/ PROFORMA INVOICE</b>
         </td>
@@ -113,6 +116,7 @@
                         @endforeach
                     @if (!$loop->last) 
                     </table>
+                    @php $pageNumber++; @endphp 
                     <div class="page-break"></div>
                          <!-- break after 1st chunk -->
                     @break  
@@ -122,6 +126,7 @@
                     @endif
                 </td>
             </tr>
+            
     @endforeach
  <!-- display remaining items with size 24 -->
     @if(count($order->items) > 15)
@@ -153,6 +158,7 @@
                         @endforeach
                     @if (!$loop->last) 
                     </table>
+                    @php $pageNumber++; @endphp
                     <div class="page-break"></div>
                     @endif
                     @if($loop->last) 
@@ -260,4 +266,9 @@
             Flexible Drive standard terms and conditions of sale.
         </td>
     </tr> 
+    <tr>
+                <td colspan="2">
+                    Page: {{$pageNumber}}
+                </td>
+            </tr>
 </table>
