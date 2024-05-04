@@ -2,11 +2,32 @@
      .page-break {
             page-break-after: always;
         }
-    </style>'
-    @php
-    $pageNumber = 1;
-@endphp
+        @page {
+        margin: 0cm 0cm;
+    }
+    body {
+        margin-top: 1cm;
+        margin-left: 1cm;
+        margin-right: 1cm;
+        margin-bottom: 2cm;
+    }
+    footer {
+        position: fixed;
+        bottom: 0cm; 
+        left: 0cm; 
+        right: 0cm;
+        height: 1.8cm; 
+        background-color: white;
+        color: black;
+        text-align: center;
+        line-height: 1.5cm;
+    }
+    </style>
 <table style="width: 100%;font-family: sans-serif;border:1px solid #000;font-size: 12px;" cellpadding="10" cellspacing="0" align="center">
+ @php
+    $pageNumber = 1;
+    $flag=false;
+ @endphp
     <tr>
         <td align="left" style="border-bottom: 2px solid #000">
             <img src="https://www.flexibledrive.com.au/static/themes/theme-1/images/logos/flexible-drive-logo.svg" style="max-width: 300px; width: 300px; margin-top:5px">
@@ -87,6 +108,7 @@
             </table>
         </td>
     </tr>
+ 
     <!-- display 15 items in 1st page -->
     @foreach($order->items->chunk(15) as $index => $chunk)
     <tr bgcolor="#f8f8f8" style="border-bottom: 1px solid #000;"  >
@@ -116,17 +138,21 @@
                         @endforeach
                     @if (!$loop->last) 
                     </table>
-                    @php $pageNumber++; @endphp 
+                    <footer>
+                        Page: {{$pageNumber}}
+                     </footer>
                     <div class="page-break"></div>
-                         <!-- break after 1st chunk -->
+                         <!-- break after 1st chunk -->  
                     @break  
                     @endif
                     @if($loop->last) 
                     </table>
+                    <footer>
+                        Page: {{$pageNumber}}
+                     </footer>
                     @endif
                 </td>
             </tr>
-            
     @endforeach
  <!-- display remaining items with size 24 -->
     @if(count($order->items) > 15)
@@ -156,19 +182,45 @@
                             <td>${{ number_format((float)$item->total, 2, '.', '')}}</td>
                         </tr>
                         @endforeach
+                 
                     @if (!$loop->last) 
                     </table>
-                    @php $pageNumber++; @endphp
+                    {{$pageNumber++}}
+                        <footer>
+                        Page: {{$pageNumber}}
+                        </footer>
                     <div class="page-break"></div>
                     @endif
+
                     @if($loop->last) 
+                    
                     </table>
-                       @if (count($chunk) > 20)
-                        <div class="page-break"></div>
+                   
+                        @if (count($chunk) > 20)
+                            @php
+                            $pageNumber++;
+                            @endphp
+                            <div class="page-break"></div>
+                            <footer>
+                             Page: {{$pageNumber}}
+                          </footer>
+                        @else
+                            @if(count($chunk) > 15)
+                                @php
+                                    $flag=true;
+                                @endphp
+                            @endif
+                            @php
+                            $pageNumber++;
+                            @endphp
+                            <footer>
+                            Page: {{$pageNumber}}
+                            </footer>
                         @endif
                     @endif
                 </td>
             </tr>
+
     @endforeach
     @endif
      <tr bgcolor="#fff">
@@ -258,6 +310,7 @@
             </table>
         </td>
     </tr>
+
     <tr bgcolor="#f9f9f9">
         <td colspan="2">
             <b>Please use account number reference on payment</b> <Br />
@@ -266,9 +319,13 @@
             Flexible Drive standard terms and conditions of sale.
         </td>
     </tr> 
-    <tr>
-                <td colspan="2">
-                    Page: {{$pageNumber}}
-                </td>
-            </tr>
+    @if($flag)
+    @php                 
+        $pageNumber++;
+        @endphp
+    @endif
+    <footer>
+        Page: {{$pageNumber}}
+    </footer>
 </table>
+
