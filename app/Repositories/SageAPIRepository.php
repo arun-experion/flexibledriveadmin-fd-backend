@@ -47,7 +47,6 @@ class SageAPIRepository extends BaseRepository
             $result_json = json_encode($result_xml_object);
             $result_array = json_decode($result_json, true);
             $price_data = isset(array_column($result_array, 'LIN')[0]) ? array_column($result_array, 'LIN')[0] : false;
-
             return $price_data;            
         } catch (SoapFault $e) {
             \Log::error($e->getMessage());
